@@ -1,0 +1,30 @@
+{
+  "name": "Vend",
+  "version": "1.0.0",
+  "description": "Vend is a Vendor Management Service.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test.js",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kade-95/Vend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kade-95/Vend/issues"
+  },
+  "homepage": "https://github.com/Kade-95/Vend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "jsdom": "^16.4.0",
+    "kerds": "git+https://github.com/Kade-95/Kerds.git",
+    "mongodb": "^3.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
