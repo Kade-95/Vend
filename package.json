@@ -1,0 +1,21 @@
+{
+  "name": "Vend",
+  "version": "1.0.0",
+  "description": "Vend is a Vendor Management Service.",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run --prefix client serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kade-95/Vend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kade-95/Vend/issues"
+  },
+  "homepage": "https://github.com/Kade-95/Vend#readme",
+  "dependencies": {}
+}
