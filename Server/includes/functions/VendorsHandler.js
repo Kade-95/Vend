@@ -24,42 +24,41 @@ module.exports = function VendorsHandler() {
 
     self.getStarProgress = (req, res, data) => {
 
+        let starLevel, star;
+
+        if (starLevel > 90) {
+            star = 'Patron';
+        }
+        else if (starLevel > 80) {
+            star = 'Inferno';
+        }
+        else if (starLevel > 70) {
+            star = 'Wild';
+        }
+        else if (starLevel > 60) {
+            star = 'Virgo';
+        }
+        else if (starLevel > 50) {
+            star = 'Blaze';
+        }
+        else if (starLevel > 40) {
+            star = 'Flame';
+        }
+        else if (starLevel > 30) {
+            star = 'Flare';
+        }
+        else if (starLevel > 20) {
+            star = 'Ember';
+        }
+        else if (starLevel > 10) {
+            star = 'Spark';
+        }
+        else if (starLevel < 10) {
+            star = 'Fresh';
+        }
+
+        dataHandler.respond(req, res, star);
     }
-
-    self.search = (req, res, data) => {
-        let found = { items: [], users: [], categories: [], tags: [], lists: [] };
-        let query = data.query.toLowerCase();
-
-        kerds.runParallel({
-
-        }, result => {
-            return new Promise((resolve, reject) => {
-                for (let collection in result) {
-                    for (let item of result[collection]) {
-                        if (JSON.stringify(item).toLowerCase().includes(query)) {
-                            if (collection == 'users') {
-                                found[collection].push({ _id: item._id, name: item.userName, image: item.userImage });
-                            }
-                            else if (collection == 'items') {
-                                found[collection].push({ _id: item._id, name: item.name, image: item.image });
-                            }
-                            else if (collection == 'categories') {
-                                found[collection].push({ _id: item._id, name: item.name, image: item.image });
-                            }
-                            else if (collection == 'tags') {
-                                found[collection].push({ _id: item._id, name: item.name, image: item.image });
-                            }
-                            else if (collection == 'list') {
-                                found[collection].push({ _id: item._id, name: item.name });
-                            }
-                        }
-                    }
-                }
-                dataHandler.respond(req, res, found);
-                resolve(found);
-            });
-        });
-    }  
 
     return self;
 }

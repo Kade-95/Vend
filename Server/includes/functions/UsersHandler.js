@@ -1,4 +1,4 @@
-const DataHandler = require("./DataHandler");
+ const DataHandler = require("./DataHandler");
 let dataHandler = DataHandler();
 
 module.exports = function UsersHandler() {
