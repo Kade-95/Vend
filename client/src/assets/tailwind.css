@@ -4,6 +4,13 @@
 
 @tailwind utilities;
 
-@apply {
-    input: border-gray-600 w-12
+.input-box {
+    @apply border-gray-400 border-2 py-2 px-4 w-64 ;
+    border-radius: 6px;
+}
+
+.login-btn {
+    color: white;
+    background-color: #2C5F2D;
+    border-radius: 6px;
 }
