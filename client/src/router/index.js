@@ -1,24 +1,30 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+// import LandingPage from "../views/LandingPage.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    name: "LandingPage",
+    component: function () {
+      
+      var notloggedIn = true
+      if (notloggedIn){
+        return import(/* webpackChunkName: "" */ "../views/LandingPage.vue")
+      }
+    }
   },
   
-  // {
-  //   path: "/dashboard",
-  //   name: "Dashboard",
+  {
+    path: "/register",
+    name: "Registration",
     
-  //   component: function() {
-  //     return import(/* webpackChunkName: "" */ "../views/Dashboard.vue");
-  //   }
-  // },
+    component: function() {
+      return import(/* webpackChunkName: "" */ "../views/registration.vue");
+    }
+  },
   
 ];
 
