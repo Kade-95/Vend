@@ -3,3 +3,7 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@apply {
+    input: border-gray-600 w-12
+}
