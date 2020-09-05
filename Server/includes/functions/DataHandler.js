@@ -1,40 +1,6 @@
 module.exports = function DataHanler() {
     let self = {};
 
-    self.find = (req, res, data) => {
-        let params = JSON.parse(data.params);
-        params = self.organizeData(params);
-        let action = params.action;
-        delete params.action;
-
-        let prepareResult = result => {
-            let preparedResult;
-            if (!kerds.isnull(result)) {
-                if (Array.isArray(result)) {
-                    preparedResult = [];
-                    for (let i in result) {
-                        delete result[i].currentPassword;
-                    }
-                }
-                else if (typeof result == 'object') {
-                    delete result.currentPassword;
-                }
-            }
-            preparedResult = result;
-
-            return preparedResult
-        }
-
-        if (kerds.isset(action)) {
-            self.respond(req, res, 'actioned');
-        }
-        else {
-            db.find(params).then(result => {
-                self.respond(req, res, prepareResult(result));
-            });
-        }
-    }
-
     self.ifNotExist = (params) => {
         if (params.action == 'insert') {
             params.query.timeCreated = new Date().getTime();
@@ -116,40 +82,9 @@ module.exports = function DataHanler() {
         return db.update(params);
     }
 
-    self.removeFromRecycleBin = (req, res, data) => {
-        db.delete({ collection: data.collection, query: { _id: new ObjectId(data.id) } }).then(result => {
-            self.respond(req, res, result.result.ok == 1);
-            self.makeHistory(req, result.result.ok == 1, { action: 'Removed From Recycle Bin', data, collection: data.collection, item: data.id });
-        });
-    }
-
     self.recycle = (params) => {
         params.options = { $set: { recycled: true, timeDeleted: new Date().getTime() } };
         return db.update(params);
-    }
-
-    self.revert = (req, res, data) => {
-        self.update({ collection: data.collection, query: { _id: new ObjectId(data.id) }, options: { $set: { recycled: false, timeReverted: new Date().getTime() } } }).then(result => {
-            self.respond(req, res, (result == 1));
-            self.makeHistory(req, result == 1, { action: `Reverted`, data, collection: data.collection, item: data.id });
-        });
-    }
-
-    self.emptyRecycleBin = (req, res, data) => {
-        kerds.runParallel({
-            items: db.delete({ collection: 'items', query: { recycled: true }, many: true }),
-            categories: db.delete({ collection: 'categories', query: { recycled: true }, many: true }),
-            tags: db.delete({ collection: 'tags', query: { recycled: true }, many: true }),
-            users: db.delete({ collection: 'users', query: { recycled: true }, many: true }),
-            lists: db.delete({ collection: 'lists', query: { recycled: true }, many: true }),
-            forms: db.delete({ collection: 'forms', query: { recycled: true }, many: true }),
-            reports: db.delete({ collection: 'reports', query: { recycled: true }, many: true }),
-            customforms: db.delete({ collection: 'customforms', query: { recycled: true }, many: true }),
-            reportgenerators: db.delete({ collection: 'reportgenerators', query: { recycled: true }, many: true }),
-        }, result => {
-            self.respond(req, res, true);
-            self.makeHistory(req, true, { action: 'Empty Recycle Bin', data, item: 'System' });
-        });
     }
 
     self.makeHistory = (req, flag, event) => {
@@ -197,10 +132,13 @@ module.exports = function DataHanler() {
         return preparedData;
     }
 
-    self.respond = (req, res, data) => {
+    self.respond = (req, res, data = { status: false, message: null, payload: null }) => {
+        data.payload = data.payload || null;
+        data.message = data.message || null;
+        data.status = data.status || false;
         res.end(JSON.stringify(data));
     }
-    
+
     self.notify = (req, params) => {
         params.time = new Date().getTime();
         params.read = {};
@@ -208,6 +146,6 @@ module.exports = function DataHanler() {
 
         db.insert({ collection: 'notifications', query: params });
     }
-    
+
     return self;
 }

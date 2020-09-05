@@ -1,16 +1,13 @@
- /* eslint-disable */
+/* eslint-disable */
 
 import { Kerdx } from 'Kerdx';
-window.kerdx = new Kerdx();
-const self = {};
+import {UserManager} from './UserManager.js';
 
-self.get = params => {
-    let data = { params: JSON.stringify(params) };
-    data.action = 'find';
-    return self.connect({ data });
-}
+const kerdx = new Kerdx();
+const api = {};
+const userManager = new UserManager(kerdx, api);
 
-self.connect = params => {
+api.connect = params => {
     return kerdx.api.ajax(params).then(result => {
         result = JSON.parse(result);
 
@@ -31,4 +28,21 @@ self.connect = params => {
     });
 }
 
-export default self;
+api.get = params => {
+    let data = { params: JSON.stringify(params) };
+    data.action = 'find';
+    return api.connect({ data });
+}
+
+api.ping = () => {
+    let data = { action: 'ping' };
+    return api.connect({ data });
+}
+
+api.init = ()=>{
+    document.addEventListener('DOMContentLoaded', event=>{
+        
+    });
+}
+
+export { api, kerdx, userManager };

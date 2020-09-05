@@ -29,7 +29,7 @@ module.exports = function NotifictionsHandler() {
                     }
                 }
             }
-            dataHandler.respond(req, res, notifications);
+            dataHandler.respond(req, res, { status: true, payload: notifications });
         });
     }
 
@@ -37,8 +37,11 @@ module.exports = function NotifictionsHandler() {
         data.id = new ObjectId(data.id);
         db.find({ collection: 'notifications', query: { _id: data.id }, projection: { sent: 1, _id: 0 } }).then(note => {
             note.sent[global.sessions[req.sessionId].user] = new Date().getTime();
-            dataHandler.set({ collection: 'notifications', query: { _id: data.id }, options: { '$set': { sent: note.sent } } }).then(read => {
-                dataHandler.respond(req, res, read == 1);
+            dataHandler.set({ collection: 'notifications', query: { _id: data.id }, options: { '$set': { sent: note.sent } } }).then(sent => {
+                let status = sent == 1;
+                let message = status ? 'Notification Sent' : 'Unable to Send Notification';
+
+                dataHandler.respond(req, res, { status, message });
             });
         });
     }
@@ -48,7 +51,9 @@ module.exports = function NotifictionsHandler() {
         db.find({ collection: 'notifications', query: { _id: data.id }, projection: { read: 1, _id: 0 } }).then(note => {
             note.read[global.sessions[req.sessionId].user] = new Date().getTime();
             dataHandler.set({ collection: 'notifications', query: { _id: data.id }, options: { '$set': { read: note.read } } }).then(read => {
-                dataHandler.respond(req, res, read == 1);
+                let status = read == 1;
+                let message = status ? 'Notification read' : 'Unable to find Read Notifications';
+                dataHandler.respond(req, res, { status, message });
             });
         });
     }
