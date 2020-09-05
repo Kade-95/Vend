@@ -1,6 +1,22 @@
 const DataHandler = require("./DataHandler");
 let dataHandler = DataHandler();
 
+function getFavouredBy(user) {
+
+}
+
+function getAdsRating(user) {
+
+}
+
+function getAdsRating(user) {
+
+}
+
+function getAdsRating(user) {
+
+}
+
 module.exports = function VendorsHandler() {
     let self = {};
 
@@ -25,6 +41,15 @@ module.exports = function VendorsHandler() {
     self.getStarProgress = (req, res, data) => {
 
         let starLevel, star;
+        let favoured = 100;
+        let addFrequency = 33;
+        let addPeriod = 40;
+        let ratings = 50;
+        let conversionRate = 65;
+        let responseRate = 84;
+        let uploadRate = 57;
+
+        starLevel = (favoured + addFrequency + addPeriod + ratings + conversionRate + responseRate + uploadRate) / 7;
 
         if (starLevel > 90) {
             star = 'Patron';
