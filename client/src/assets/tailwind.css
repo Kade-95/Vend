@@ -1,0 +1,20 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+.input-box {
+    @apply border-gray-400 border-2 py-2 px-4 w-64 rounded;
+}
+
+.login-btn {
+    @apply rounded;
+    color: white;
+    background-color: #2C5F2D;
+    border-radius: 6px;
+}
+
+.text-placeholder{
+
+}

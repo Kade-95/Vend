@@ -1,0 +1,44 @@
+<template>
+  <div>
+    <h2 class="">Navigation</h2>
+    <nav class="mt-2 flex flex-col space-y-4 fo">
+      <router-link v-for="routes in links"
+      v-bind:key="routes.id"
+      :to="`${routes.page}`">{{routes.text}} </router-link>
+      
+      
+    </nav>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Navigation',
+  data() {
+    return {
+      links: [
+        {
+          id: 0,
+          text: 'Home',
+          page:'/'
+        },
+        {
+          id: 1,
+          text: 'About',
+          page:'/about'
+        },
+        {
+          id: 2,
+          text: 'Contact',
+          page:'/contact'
+        },
+        {
+          id: 3,
+          text: 'Sign Up',
+          page:'/register'
+        }
+      ]
+    }
+  }
+}
+</script>

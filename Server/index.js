@@ -23,8 +23,8 @@ global.db = Database({ local: true, port: '27017', name: 'vend' });
 global.bcrypt = require('bcrypt');
 global.ObjectId = require('mongodb').ObjectId;
 
-let { PostHandler } = require('./includes/classes/PostHandler');
-let { View } = require('./includes/classes/View');
+let { PostHandler } = require('./includes/functions/PostHandler');
+let { View } = require('./includes/functions/View');
 
 let postHandler = new PostHandler();
 let view = new View(metadata, 'webapp');
@@ -34,15 +34,6 @@ function setup() {
     return new Promise((resolve, rejects) => {
         resolve(true);
     });
-}
-
-function setDb(session) {
-    if (!kerds.isset(global.sessions[session].db)) {
-        global.sessions[session].db = new Database({ port: '27017', local: true, name: 'vend' });
-    }
-    if (kerds.isset(global.sessions[session].tenant)) {
-        global.sessions[session].db.setName(global.sessions[session].tenant);
-    }
 }
 
 let { port, protocol } = kerds.getCommands('-');
@@ -59,7 +50,6 @@ setup().then(done => {
             cert: fs.readFileSync('./permissions/server.crt')
         },
         response: params => {
-            setDb(params.sessionId);
             view.createView(params);
         }
     });
@@ -67,6 +57,5 @@ setup().then(done => {
 
 kerds.recordSession({ period: 24 * 60 * 60 * 1000, remember: ['tenant', 'user'], server: { port: '27017', local: true, name: 'vend' } });
 kerds.handleRequests = (req, res, form) => {
-    setDb(req.sessionId);
     postHandler.act(req, res, form);
 }
