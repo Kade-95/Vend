@@ -113,9 +113,9 @@ let handler = Handlers();
 function PostHandler() {
     let self = {};
     // self.sessions = kerds.sessionsManager.sessions;
-    self.ignoreActive = ['login', 'createTenant'];
+    self.ignoreActive = ['login', 'createUser'];
     self.appRequests = ['fetchApp', 'putApp', 'deleteApp'];
-    self.adminOnly = ['createUser', 'makeAdmin', 'makeStaff', 'deleteUser'];
+    self.adminOnly = ['createAdmin', 'deleteUser'];
     self.domains = [
         'sharepoint.com'
     ];

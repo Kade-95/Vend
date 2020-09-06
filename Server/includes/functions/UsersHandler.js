@@ -10,9 +10,15 @@ module.exports = function UsersHandler() {
 
             dataHandler.ifNotExist({ collection: 'users', query: data, check: [{ userName: data.userName }, { email: data.email }], action: 'insert', getInserted: true }).then(result => {
                 if (!kerds.isset(result.found)) {
-                    let status = kerds.isset(result[0]);
-                    let message = status ? 'User created Successfully' : 'Unable to Create User due to unknown error';
-                    dataHandler.respond(req, res, { status, message });
+                    let status = kerds.isset(result[0]._id);
+                    let message = 'Unable to Create User due to unknown error';
+                    let payload;
+                    if (status) {
+                        payload = result[0]._id;
+                        message = 'User created Successfully';
+                    }
+
+                    dataHandler.respond(req, res, { status, message, payload });
 
                     dataHandler.makeHistory(req, status, { action: 'User Creation', data, collection: 'users', item: result[0]._id.toString() });
                     if (data.userType == 'Admin') {
@@ -34,16 +40,12 @@ module.exports = function UsersHandler() {
     }
 
     self.login = (req, res, data) => {
-        let [userName, account] = data.email.split('@');
-        account = account.slice(0, account.lastIndexOf('.')).replace('.', '#');
-        db.name = account;
-        console.log(account, userName);
-        db.find({ collection: 'users', query: { userName: userName }, projection: { currentPassword: 1, userType: 1, fullName: 1, userImage: 1 } }).then(result => {
+        db.find({ collection: 'users', query: { userName: data.userName }, projection: { currentPassword: 1, userType: 1, fullName: 1, userImage: 1 } }).then(result => {
             if (!kerds.isnull(result)) {
                 bcrypt.compare(data.currentPassword, result.currentPassword).then(valid => {
                     if (valid) {
                         dataHandler.respond(req, res, { status: true, payload: { user: result._id, userType: result.userType, fullName: result.fullName, image: result.userImage } });
-                        global.sessions[req.sessionId].set({ user: ObjectId(result._id).toString(), active: true, account });
+                        global.sessions[req.sessionId].set({ user: ObjectId(result._id).toString(), active: true });
                     }
                     else {
                         dataHandler.respond(req, res, { status: false, message: 'Incorrect username or password' })
