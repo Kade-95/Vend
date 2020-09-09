@@ -1,10 +1,10 @@
 
 <template>
-  <div class="LandingPage">
-    <div id="nav" class="flex flex-row justify-between">
-      <img class="logo ml- w-16" alt="Vue logo" src="@/assets/vend.svg" />
-      <a @click="toggleNav" >
-        <img class="logo ml- w-6" alt="nav" src="@/assets/menu.svg" />
+  <div class="LandingPage align-center">
+    <div id="nav" class=" max-w-screen-xl flex flex-row justify-between md:pl-10">
+      <img class="logo w-16 md:w-20 xl:w-24" alt="Vue logo" src="@/assets/vend.svg" />
+      <a @click="toggleNav" class="lg:invisible">
+        <img class="logo w-6 md:w-8" alt="nav" src="@/assets/menu.svg" />
       </a>
       
     </div>
