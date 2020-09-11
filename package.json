@@ -19,5 +19,7 @@
     "url": "https://github.com/Kade-95/Vend/issues"
   },
   "homepage": "https://github.com/Kade-95/Vend#readme",
-  "dependencies": {}
+  "dependencies": {
+    "kerds": "git+https://github.com/Kade-95/Kerds.git"
+  }
 }
