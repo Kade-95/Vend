@@ -76,6 +76,7 @@ export default {
   data() {
     return {
       check: true,
+      clientError: "",
       username: "",
       email: "",
       password: ""
@@ -102,11 +103,19 @@ export default {
             return response.json()
         },
         formAction(){
-            this.submitData("http://localhost:8080/",
-             {username: this.username, email:this.email, password:this.password})
-             .then(data => {
+            this.submitData("http://localhost:8082/", {username: this.username, email:this.email, password:this.password})
+                .then(response => {
+                    if (!response.ok) {
+                        this.clientError = response.message
+                        console.log(response.status, response.message);
+                        return self
+                    } else {
+                        response.json()
+                    }
+                })
+                .then(data => {
                  console.log(data)
-             })
+                })
         }
     }
 };
