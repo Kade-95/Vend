@@ -19,7 +19,7 @@ kerds.appPages = [
     'users.html'
 ];
 
-global.db = Database({ local: true, port: '27017', name: 'vend' });
+global.db = Database({ address: 'test.vqusx.gcp.mongodb.net', user: 'me', password: '.June1995', name: 'vend' });
 global.bcrypt = require('bcrypt');
 global.ObjectId = require('mongodb').ObjectId;
 
@@ -55,7 +55,7 @@ setup().then(done => {
     });
 });
 
-kerds.recordSession({ period: 24 * 60 * 60 * 1000, remember: ['tenant', 'user'], server: { port: '27017', local: true, name: 'vend' } });
+kerds.recordSession({ period: 24 * 60 * 60 * 1000, remember: ['tenant', 'user'], server: { address: 'test.vqusx.gcp.mongodb.net', user: 'me', password: '.June1995', name: 'vend' } });
 kerds.handleRequests = (req, res, form) => {
     postHandler.act(req, res, form);
 }
