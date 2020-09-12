@@ -25,6 +25,14 @@ const routes = [
       return import(/* webpackChunkName: "" */ "../views/registration.vue");
     }
   },
+  {
+    path: "/test",
+    name: "test",
+
+    component: function() {
+      return import(/* webpackChunkName: "" */ "../views/registration.vue");
+    }
+  }
   
 ];
 
