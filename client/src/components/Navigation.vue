@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2 class="">Navigation</h2>
-    <nav class="mt-2 flex flex-col space-y-4 fo">
-      <router-link v-for="routes in links"
+    <h2 class=""></h2>
+    <nav class="mt-2 flex flex-col space-y-4" >
+      <router-link class="text-primary font-bold" v-for="routes in links"
       v-bind:key="routes.id"
       :to="`${routes.page}`">{{routes.text}} </router-link>
       
