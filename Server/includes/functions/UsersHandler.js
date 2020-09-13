@@ -70,7 +70,8 @@ module.exports = function UsersHandler() {
     }
 
     self.banUser = (req, res, data) => {
-        dataHandler.set({ collection: 'users', query: { _id: ObjectId(data.user) }, options: { '$set': { banned: true, banReason: data.reason, banTime: data.time } } }).then(result => {
+        let banTime = new Date().getTime();
+        dataHandler.set({ collection: 'users', query: { _id: ObjectId(data.user) }, options: { '$set': { banned: true, banReason: data.reason, banTime } } }).then(result => {
             let status = result == 1;
             let message = status ? `User ${data.user} banned` : 'Unable to ban user';
             dataHandler.respond(req, res, { status, message });
