@@ -10,7 +10,7 @@ EndPoints
 
 2.  login: {
         use: This is used to login a User,
-        requiredParams: {password: '', userName: ''},
+        requiredParams: {currentPassword: '', userName: ''},
         error: checks for correct credentials
     }
 

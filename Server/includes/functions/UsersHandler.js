@@ -33,7 +33,12 @@ module.exports = function UsersHandler() {
                     }
                 }
                 else {
-                    dataHandler.respond(req, res, { status: false, message: 'User is a duplicate', payload: result });
+                    if (result.found.includes('email')) {
+                        dataHandler.respond(req, res, { status: false, message: 'Email is already in use', payload: result });
+                    }
+                    else if ('userName') {
+                        dataHandler.respond(req, res, { status: false, message: 'Username is already in use', payload: result });
+                    }
                 }
             });
         });
