@@ -14,7 +14,7 @@ module.exports = function UsersHandler() {
                     let message = 'Unable to Create User due to unknown error';
                     let payload;
                     if (status) {
-                        payload = result[0]._id;
+                        payload = { user: result[0]._id };
                         message = 'User created Successfully';
                     }
 
@@ -49,7 +49,7 @@ module.exports = function UsersHandler() {
             if (!kerds.isnull(result)) {
                 bcrypt.compare(data.currentPassword, result.currentPassword).then(valid => {
                     if (valid) {
-                        dataHandler.respond(req, res, { status: true, payload: { user: result._id, userType: result.userType, fullName: result.fullName, image: result.userImage } });
+                        dataHandler.respond(req, res, { status: true, payload: { user: result._id } });
                         global.sessions[req.sessionId].set({ user: ObjectId(result._id).toString(), active: true });
                     }
                     else {
@@ -58,7 +58,7 @@ module.exports = function UsersHandler() {
                 });
             }
             else {
-                dataHandler.respond(req, res, { status: false, message: '404' })
+                dataHandler.respond(req, res, { status: false, message: 'Incorrect username or password' });
             }
         });
     }
