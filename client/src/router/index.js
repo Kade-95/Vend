@@ -8,21 +8,27 @@ const routes = [
   {
     path: "/",
     name: "LandingPage",
-    component: function () {
-      
-      var notloggedIn = true
-      if (notloggedIn){
-        return import(/* webpackChunkName: "" */ "../views/LandingPage.vue")
+    component: function() {
+      var notloggedIn = true;
+      if (notloggedIn) {
+        return import(/* webpackChunkName: "" */ "../views/LandingPage.vue");
       }
     }
   },
-  
   {
     path: "/register",
     name: "Registration",
-    
+
     component: function() {
-      return import(/* webpackChunkName: "" */ "../views/registration.vue");
+      return import(/* webpackChunkName: "" */ "../views/Registration.vue");
+    }
+  },
+  {
+    path: "/home",
+    name: "home",
+
+    component: function() {
+      return import(/* webpackChunkName: "" */ "../views/Home.vue");
     }
   },
   {
@@ -30,10 +36,9 @@ const routes = [
     name: "test",
 
     component: function() {
-      return import(/* webpackChunkName: "" */ "../views/registration.vue");
+      return import(/* webpackChunkName: "" */ "../views/Registration.vue");
     }
   }
-  
 ];
 
 const router = new VueRouter({
