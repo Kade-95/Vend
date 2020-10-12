@@ -1,6 +1,8 @@
+const Compression = require("kerds/functions/Compression");
+
 module.exports = function DataHanler() {
     let self = {};
-
+    let compressor = Compression();
     self.ifNotExist = (params) => {
         if (params.action == 'insert') {
             params.query.timeCreated = new Date().getTime();
@@ -136,7 +138,14 @@ module.exports = function DataHanler() {
         data.payload = data.payload || null;
         data.message = data.message || null;
         data.status = data.status || false;
-        res.end(JSON.stringify(data));
+        let sentence = JSON.stringify(data);
+        let dictionary = kerds.array.toSet(sentence.split('')).join('');
+
+        let code = compressor.encodeLZW(sentence, dictionary);
+        let encoded = JSON.stringify({ code, dictionary, encoder: 'LZW' });
+
+        let response = sentence < encoded ? sentence : encoded;
+        res.end(response);
     }
 
     self.notify = (req, params) => {

@@ -180,27 +180,27 @@ module.exports = function UsersHandler() {
 
     self.logout = (req, res, data) => {
         let id = req.sessionId;
-        if (kerds.isset(data.id)) {
-            id = data.id;
+        if (kerds.isset(data.user)) {
+            id = data.user;
         }
         kerds.sessionsManager.destroy(id).then(done => {
-            dataHandler.respond(req, res, { status: true, message: 'User logged out' });
+            dataHandler.respond(req, res, { status: true, message: 'You logged out' });
         });
     }
 
     self.changeDp = (req, res, data) => {
         let userPath = `./users/${req.sessionId}`;
         let userImage = `./users/${req.sessionId}/dp.png`;
+        let user = global.sessions[req.sessionId].user;
 
         let uploadImage = () => {
             fs.writeFile(userImage, data.newImage.value, c => {
-                dataHandler.set({ collection: 'users', query: { _id: new ObjectId(global.sessions[req.sessionId].user) }, options: { '$set': { userImage: userImage } } }).then(result => {
+                dataHandler.set({ collection: 'users', query: { _id: new ObjectId(user) }, options: { '$set': { userImage: userImage } } }).then(result => {
                     let status = result == 1;
                     let message = status ? `User dp updated` : `Unable to update user dp`;
                     dataHandler.respond(req, res, { status, message });
 
-                    dataHandler.makeHistory(req, result == 1, { action: 'Change Profile Picture', data, collection: 'users', item: global.sessions[req.sessionId].user });
-
+                    dataHandler.makeHistory(req, result == 1, { action: 'Change Profile Picture', data, collection: 'users', item: user });
                 });
             });
         }
@@ -218,38 +218,43 @@ module.exports = function UsersHandler() {
     }
 
     self.deleteDp = (req, res, data) => {
-        dataHandler.set({ collection: 'users', query: { _id: new ObjectId(global.sessions[req.sessionId].user) }, options: { '$set': { userImage: null } } }).then(result => {
-            kerds.deleteRecursive(`./users/${global.sessions[req.sessionId].user}/dp.png`, () => {
+        let user = global.sessions[req.sessionId].user;
+        dataHandler.set({ collection: 'users', query: { _id: new ObjectId(user) }, options: { '$set': { userImage: null } } }).then(result => {
+            kerds.deleteRecursive(`./users/${user}/dp.png`, () => {
                 let status = result == 1;
                 let message = status ? `User dp deleted` : `Unable to delete user dp`;
                 dataHandler.respond(req, res, { status, message });
 
-                dataHandler.makeHistory(req, result == 1, { action: 'Delete Profile Picture', data, collection: 'users', item: global.sessions[req.sessionId].user });
+                dataHandler.makeHistory(req, result == 1, { action: 'Delete Profile Picture', data, collection: 'users', item: user });
             });
         });
     }
 
     self.editProfile = (req, res, data) => {
         data.lastModified = new Date().getTime();
-        dataHandler.set({ collection: 'users', query: { _id: new ObjectId(global.sessions[req.sessionId].user) }, options: { '$set': data } }).then(result => {
+        delete data.currentPassword;
+        let user = global.sessions[req.sessionId].user;
+        dataHandler.set({ collection: 'users', query: { _id: new ObjectId(user) }, options: { '$set': data } }).then(result => {
             let status = result == 1;
             let message = status ? `User Profile edited` : `Unable to edit user profile`;
             dataHandler.respond(req, res, { status, message });
 
-            dataHandler.makeHistory(req, result == 1, { action: 'Edit Profile', data, collection: 'users', item: global.sessions[req.sessionId].user });
+            dataHandler.makeHistory(req, result == 1, { action: 'Edit Profile', data, collection: 'users', item: user });
         });
     }
 
     self.changePassword = (req, res, data) => {
-        db.find({ collection: 'users', query: { _id: new ObjectId(global.sessions[req.sessionId].user) }, projection: { currentPassword: 1 } }).then(result => {
+        let user = global.sessions[req.sessionId].user;
+
+        db.find({ collection: 'users', query: { _id: new ObjectId(user) }, projection: { currentPassword: 1 } }).then(result => {
             if (!kerds.isnull(result)) {
                 bcrypt.compare(data.currentPassword, result.currentPassword).then(valid => {
                     if (valid) {
                         bcrypt.hash(data.newPassword, 10).then(hash => {
                             data.newPassword = hash;
-                            dataHandler.set({ collection: 'users', query: { _id: new ObjectId(global.sessions[req.sessionId].user) }, options: { '$set': { currentPassword: data.newPassword } } }).then(changed => {
+                            dataHandler.set({ collection: 'users', query: { _id: new ObjectId(user) }, options: { '$set': { currentPassword: data.newPassword } } }).then(changed => {
                                 dataHandler.respond(req, res, { status: true, message: 'User password changed' });
-                                dataHandler.makeHistory(req, true, { action: 'Change Password', data, collection: 'users', item: global.sessions[req.sessionId].user });
+                                dataHandler.makeHistory(req, true, { action: 'Change Password', data, collection: 'users', item: user });
                             });
                         });
                     }
@@ -259,7 +264,7 @@ module.exports = function UsersHandler() {
                 });
             }
             else {
-                dataHandler.respond(req, res, { status: false, message: '404' });
+                dataHandler.respond(req, res, { status: false, message: 'User not found' });
             }
         });
     }
