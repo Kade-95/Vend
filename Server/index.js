@@ -55,7 +55,7 @@ setup().then(done => {
     });
 });
 
-kerds.recordSession({ period: 24 * 60 * 60 * 1000, remember: ['tenant', 'user'], server: { address: 'test.vqusx.gcp.mongodb.net', user: 'me', password: '.June1995', name: 'vend' } });
+kerds.recordSession({ period: 24 * 60 * 60 * 1000, remember: ['user'], server: { address: 'test.vqusx.gcp.mongodb.net', user: 'me', password: '.June1995', name: 'vend' } });
 kerds.handleRequests = (req, res, form) => {
     postHandler.act(req, res, form);
 }
