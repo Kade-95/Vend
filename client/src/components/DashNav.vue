@@ -1,0 +1,59 @@
+<template>
+  <div>
+    <h2 class=""></h2>
+    <nav class="mt-2 ml-6 flex flex-col justify-evenly space-y-4 text-left">
+      <router-link
+        class="text-gray-700 font-bold"
+        v-for="routes in links"
+        v-bind:key="routes.id"
+        :to="`${routes.page}`"
+        >
+        <img src="`@/assets/Portfolio.svg`" alt="" srcset=""/>
+        {{ routes.text }}
+      </router-link>
+    </nav>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: "DashNav",
+  data() {
+    return {
+      links: [
+        {
+          id: 0,
+          text: "Dashboard",
+          page: "/"
+        },
+        {
+          id: 1,
+          text: "Portfolio",
+          page: "/portfolio"
+        },
+        {
+          id: 2,
+          text: "Blog",
+          page: "/blog"
+        },
+        {
+          id: 3,
+          text: "Notifications",
+          page: "/notifications"
+        },
+        {
+          id: 4,
+          text: "Negotiations",
+          page: "/negotiations"
+        },
+        {
+          id: 5,
+          text: "Settings",
+          page: "/settings"
+        }
+      ]
+    }
+  }
+};
+</script>
