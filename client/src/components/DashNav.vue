@@ -3,19 +3,22 @@
     <h2 class=""></h2>
     <nav class="mt-2 ml-6 flex flex-col justify-evenly space-y-4 text-left">
       <router-link
-        class=".text-gray-700 font-bold"
+        class="text-gray-700 font-bold"
         v-for="routes in links"
         v-bind:key="routes.id"
         :to="`${routes.page}`"
-        >{{ routes.text }}
+        >
+        <img src="`@/assets/Portfolio.svg`" alt="" srcset=""/>
+        {{ routes.text }}
       </router-link>
     </nav>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: "Navigation",
+  name: "DashNav",
   data() {
     return {
       links: [
@@ -50,7 +53,7 @@ export default {
           page: "/settings"
         }
       ]
-    };
+    }
   }
 };
 </script>
