@@ -1,9 +1,9 @@
 <template>
   <div>
     <h2 class=""></h2>
-    <nav class="mt-2 flex flex-col space-y-4">
+    <nav class="mt-2 ml-6 flex flex-col justify-evenly space-y-4 text-left">
       <router-link
-        class="text-primary font-bold"
+        class=".text-gray-700 font-bold"
         v-for="routes in links"
         v-bind:key="routes.id"
         :to="`${routes.page}`"

@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import { DashNav } from "@/components/DashNav.vue";
+import  DashNav  from "@/components/DashNav.vue";
 export default {
-    name: "home",
+    name: "Home",
     components: {
         DashNav
     },

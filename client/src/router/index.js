@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/dashboard",
     name: "LandingPage",
     component: function() {
       var notloggedIn = true;
