@@ -131,14 +131,16 @@ export default {
 
       fetch(url, fparams)
         .then(response => {
+          if (!response.ok) throw response.status;
           return response.json();
         })
-        .then(data => {
-          let error = handleResponse(data);
+        .then(result => {
+          let error = handleResponse(result);
           this.handleErr(error.message);
         })
         .catch(error => {
           console.log(error.message);
+          this.handleErr(error.message);
         });
 
       // var xhttp = new XMLHttpRequest();
@@ -176,7 +178,7 @@ export default {
               email: this.email
             };
 
-      this.submitData("https://localhost:8084/", Data, handleResponse);
+      this.submitData("https://localhost:8082/", Data, handleResponse);
 
       function handleResponse(response) {
         if (response.status == false) {
