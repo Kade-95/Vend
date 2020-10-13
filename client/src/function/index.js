@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 import { Kerdx, Database, Compression } from 'Kerdx';
-import { UserManager } from './UserManager.js';
 
 const kerdx = new Kerdx();
 let compressor = Compression();
