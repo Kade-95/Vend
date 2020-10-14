@@ -19,8 +19,7 @@ api.connect = params => {
         }
 
         result = JSON.parse(result);
-        result = JSON.parse(result);
-        if (result.encoder == 'LZW') {
+        if (kerdx.isTruthy(result.encoded)) {
             result = JSON.parse(compressor.decodeLZW(result.code, result.dictionary));
         }
         return result;
