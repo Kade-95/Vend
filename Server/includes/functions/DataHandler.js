@@ -1,6 +1,6 @@
-const Compression = require("kerds/functions/Compression");
+import { Compression } from 'kerds';
 
-module.exports = function DataHanler() {
+function DataHandler() {
     let self = {};
     let compressor = Compression();
     self.ifNotExist = (params) => {
@@ -115,6 +115,7 @@ module.exports = function DataHanler() {
     self.prepareData = (data) => {
         let preparedData = {};
         let value;
+
         for (let i in data) {
             if (!kerds.isset(preparedData[i])) {
 
@@ -131,6 +132,10 @@ module.exports = function DataHanler() {
             }
         }
 
+        if (kerds.isTruthy(preparedData.encoded)) {
+            preparedData = compressor.decodeLZW(preparedData.code.split(','), preparedData.dictionary);
+        }
+        
         return preparedData;
     }
 
@@ -142,7 +147,7 @@ module.exports = function DataHanler() {
         let dictionary = kerds.array.toSet(sentence.split('')).join('');
 
         let code = compressor.encodeLZW(sentence, dictionary);
-        let encoded = JSON.stringify({ code, dictionary, encoder: 'LZW' });
+        let encoded = JSON.stringify({ code, dictionary, encoded: true });
 
         let response = sentence < encoded ? sentence : encoded;
         res.end(response);
@@ -158,3 +163,5 @@ module.exports = function DataHanler() {
 
     return self;
 }
+
+export { DataHandler };

@@ -1,14 +1,23 @@
 /* eslint-disable */
 
-import { Kerdx, Database, Compression } from 'Kerdx';
+import { Kerdx, Database, Compression, AppLibrary } from 'kerdx';
 
 const kerdx = new Kerdx();
 let compressor = Compression();
-
+let appLibrary = AppLibrary();
 const api = {};
 
 api.connect = params => {
-    return kerdx.api.ajax(params).then(result => {
+    return appLibrary.ajax(params = { encode: true, data: {} }).then(result => {
+        if (params.encode == undefined) params.encode = true;
+
+        if (params.encode == true) {
+            let sentence = JSON.stringify(params.data);
+            let dictionary = kerdx.array.toSet(sentence.split('')).join('');
+            let code = compressor.encodeLZW(sentence, dictionary);
+            params.data = { code, dictionary, encoded: true };
+        }
+
         result = JSON.parse(result);
         result = JSON.parse(result);
         if (result.encoder == 'LZW') {
