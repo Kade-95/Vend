@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import LandingPage from "../views/LandingPage.vue";
+// import LandingPage from "../views/LandingPage.vue";
 import Find from "../components/Finder.vue";
-import Home from "../views/Home.vue"
+// import Home from "../views/Home.vue"
 import Blog from "../components/Blog.vue";
 import Negotiations from "../components/Negotiations.vue";
 
@@ -23,10 +23,10 @@ const routes = [
 
         console.log("land");
 
-        return LandingPage
+        return import(/* webpackChunkName: "" */ "../views/LandingPage.vue");
       }
       console.log("home");
-      return Home
+      return import(/* webpackChunkName: "" */ "../views/Home.vue");
 
     },
 
