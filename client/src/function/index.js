@@ -1,10 +1,10 @@
 /* eslint-disable */
 
-import { Kerdx, Database, Compression, AppLibrary } from 'kerdx';
-
-const kerdx = new Kerdx();
-let compressor = Compression();
-let appLibrary = AppLibrary();
+import { Func, ArrayLibrary, IndexedLibrary, Compression, AppLibrary } from '@thekade/kerd';
+const func = new Func();
+const arrayLib = ArrayLibrary();
+const compressor = Compression();
+const appLibrary = AppLibrary();
 const api = {};
 
 api.connect = params => {
@@ -13,13 +13,13 @@ api.connect = params => {
 
         if (params.encode == true) {
             let sentence = JSON.stringify(params.data);
-            let dictionary = kerdx.array.toSet(sentence.split('')).join('');
+            let dictionary = arrayLib.toSet(sentence.split('')).join('');
             let code = compressor.encodeLZW(sentence, dictionary);
             params.data = { code, dictionary, encoded: true };
         }
 
         result = JSON.parse(result);
-        if (kerdx.isTruthy(result.encoded)) {
+        if (func.isTruthy(result.encoded)) {
             result = JSON.parse(compressor.decodeLZW(result.code, result.dictionary));
         }
         return result;
@@ -29,4 +29,4 @@ api.connect = params => {
 }
 
 
-export { api, kerdx, userManager, Database };
+export { api, IndexedLibrary };

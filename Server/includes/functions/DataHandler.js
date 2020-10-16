@@ -1,8 +1,5 @@
-import { Compression } from 'kerds';
-
 function DataHandler() {
     let self = {};
-    let compressor = Compression();
     self.ifNotExist = (params) => {
         if (params.action == 'insert') {
             params.query.timeCreated = new Date().getTime();
@@ -15,11 +12,11 @@ function DataHandler() {
             let data, found;
             for (let i = 0; i < params.check.length; i++) {
                 data = await db.find({ collection: params.collection, query: params.check[i], many: true });
-                data = kerds.array.find(data, d => {
+                data = base.array.find(data, d => {
                     return d.recycled != true;
                 });
 
-                found = kerds.isset(data);
+                found = base.isset(data);
 
                 if (found) {
                     resolve({ found: Object.keys(params.check[i]) });
@@ -38,14 +35,14 @@ function DataHandler() {
 
     self.ifIExist = (params) => {
         if (params.action == 'update') {
-            if (kerds.isset(params.option)) {
-                if (kerds.isset(params.options['$set'])) {
+            if (base.isset(params.option)) {
+                if (base.isset(params.options['$set'])) {
                     params.options['$set'].lastModified = new Date().getTime();
                 }
-                if (kerds.isset(params.options['$push'])) {
+                if (base.isset(params.options['$push'])) {
                     params.options['$push'].lastModified = new Date().getTime();
                 }
-                if (kerds.isset(params.options['$pull'])) {
+                if (base.isset(params.options['$pull'])) {
                     params.options['$pull'].lastModified = new Date().getTime();
                 }
             }
@@ -98,10 +95,10 @@ function DataHandler() {
     }
 
     self.organizeData = (params) => {
-        if (kerds.isset(params.query)) {
-            if (kerds.isset(params.changeQuery)) {
+        if (base.isset(params.query)) {
+            if (base.isset(params.changeQuery)) {
                 for (var i in params.changeQuery) {
-                    if (kerds.isset(params.query[i])) {
+                    if (base.isset(params.query[i])) {
                         if (params.changeQuery[i] == 'objectid') {
                             params.query[i] = new ObjectId(params.query[i]);
                         }
@@ -117,7 +114,7 @@ function DataHandler() {
         let value;
 
         for (let i in data) {
-            if (!kerds.isset(preparedData[i])) {
+            if (!base.isset(preparedData[i])) {
 
                 if (data[i].filename != '') {
                     value = data[i];
@@ -132,7 +129,7 @@ function DataHandler() {
             }
         }
 
-        if (kerds.isTruthy(preparedData.encoded)) {
+        if (base.isTruthy(preparedData.encoded)) {
             preparedData = compressor.decodeLZW(preparedData.code.split(','), preparedData.dictionary);
         }
         
@@ -144,7 +141,7 @@ function DataHandler() {
         data.message = data.message || null;
         data.status = data.status || false;
         let sentence = JSON.stringify(data);
-        let dictionary = kerds.array.toSet(sentence.split('')).join('');
+        let dictionary = base.array.toSet(sentence.split('')).join('');
 
         let code = compressor.encodeLZW(sentence, dictionary);
         let encoded = JSON.stringify({ code, dictionary, encoded: true });
@@ -164,4 +161,4 @@ function DataHandler() {
     return self;
 }
 
-export { DataHandler };
+module.exports = DataHandler;

@@ -10,8 +10,8 @@ module.exports = function NotifictionsHandler() {
         db.find({ collection: 'notifications', query: {}, many: true }).then(found => {
             for (let i = 0; i < found.length; i++) {
                 if (found[i].users.includes(user)) {
-                    found[i].status = kerds.isset(found[i].read[user]) ? 'Read' : 'UnRead';
-                    found[i].delivered = kerds.isset(found[i].sent[user]);
+                    found[i].status = base.isset(found[i].read[user]) ? 'Read' : 'UnRead';
+                    found[i].delivered = base.isset(found[i].sent[user]);
                     delete found[i].read;
                     delete found[i].sent;
                     if (data.flag == 'unsent') {
