@@ -5,7 +5,7 @@
           <span class="navlink-text">Home</span>
       </router-link>
 
-      <router-link to="/find" class="navlink" exact>
+      <router-link to="/find" class="navlink">
           <img class="navlink-icon" src="@/assets/Find.svg" alt="" srcset="">
           <span class="navlink-text">Find Vendor</span>
       </router-link>
@@ -28,9 +28,7 @@
 <script>
 
 export default {
-  name: "Nav",
-  data() {
-  }
+  name: "Nav"
 };
 </script>
 

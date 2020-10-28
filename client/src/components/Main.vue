@@ -20,30 +20,29 @@ export default {
 
 <style scoped>
 
-    
-    .maincontent {
-        grid-template-columns: min-content 1fr;
-        grid-template-rows: 1fr;
-        grid-template-areas: 
-        "nav content"
-        ;
-        align-items: baseline;
+  .maincontent {
+    grid-template-columns: min-content 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+    "nav content"
+    ;
+    align-items: baseline;
 
-    }
+  }
 
-    @media (max-width: 640px) {
+  @media (max-width: 640px) {
 
-        .maincontent {
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr max-content;
-        grid-template-areas: 
-        "content"
-        "nav"
-        ;
-        height: 100%;
-        }
-        
-    }
+      .maincontent {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr max-content;
+      grid-template-areas: 
+      "content"
+      "nav"
+      ;
+      height: 100%;
+      }
+      
+  }
 
 </style>
 

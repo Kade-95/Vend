@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 // import LandingPage from "../views/LandingPage.vue";
-import Find from "../components/Finder.vue";
+// import Find from "../components/Finder.vue";
 // import Home from "../views/Home.vue"
-import Blog from "../components/Blog.vue";
+// import Blog from "../components/Blog.vue";
 import Negotiations from "../components/Negotiations.vue";
 
 
@@ -16,7 +16,7 @@ var validUser;
 const routes = [
   {
     path: "/",
-    name: "Start",
+    name: "Home",
     component: function() {
 
       if (!sessionActive) {
@@ -32,14 +32,24 @@ const routes = [
 
     children: [
       {
+        name: "Find Vendor",
         path: "/find",
-        component: Find
+        component: function () {
+
+          
+          return import(/* webpackChunkName: "" */ "../components/Finder.vue");
+        }
       },
       {
+        name: "blog",
         path: "/blog",
-        component: Blog
+        component: function () {
+          return import( "../components/Blog.vue");
+        },
+        
       },
       {
+        name: "Negotiations",
         path: "/negotiations",
         component: Negotiations
       }

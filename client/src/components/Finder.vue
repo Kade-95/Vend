@@ -1,8 +1,13 @@
+<template>
+  <div>search!!
+    i'm also here
+  
+  </div>
+</template>
+
 <script>
 
 export default {
-  name: "Blog",
-  data() {
-  }
+  name: "Find"
 };
 </script>
