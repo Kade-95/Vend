@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { Func, ArrayLibrary, IndexedLibrary, Compression, AppLibrary } from '@thekade/kerd';
+import { Func, ArrayLibrary, IndexedLibrary, Compression, AppLibrary } from 'kedio';
 const func = new Func();
 const arrayLib = ArrayLibrary();
 const compressor = Compression();

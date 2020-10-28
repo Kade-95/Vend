@@ -130,9 +130,15 @@ function DataHandler() {
         }
 
         if (base.isTruthy(preparedData.encoded)) {
-            preparedData = compressor.decodeLZW(preparedData.code.split(','), preparedData.dictionary);
+            let decoded = compressor.decodeLZW(preparedData.code.split(','), preparedData.dictionary);
+
+            try {
+                preparedData = JSON.parse(decoded);
+            } catch (error) {
+                preparedData = decoded;
+            }
         }
-        
+
         return preparedData;
     }
 

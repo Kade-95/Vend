@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/Kade-95/Vend#readme",
   "dependencies": {
-    "@thekade/kerd": "^1.0.10"
+    "kedio": "^1.0.7"
   }
 }

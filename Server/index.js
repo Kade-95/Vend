@@ -1,5 +1,5 @@
 'use strict'
-let { Server, MongoLibrary, SessionsManager, Func, Array, Compression } = require('@thekade/kerd');
+let { Server, MongoLibrary, Func, Array, Compression } = require('kedio');
 global.fs = require('fs');
 
 const serverDetails = { address: 'test.vqusx.gcp.mongodb.net', user: 'me', password: '.June1995', name: 'vend' };
