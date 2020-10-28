@@ -1,5 +1,5 @@
 {
-  "name": "Vend",
+  "name": "vend",
   "version": "1.0.0",
   "description": "Vend is a Vendor Management Service.",
   "main": "index.js",

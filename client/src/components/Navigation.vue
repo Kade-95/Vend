@@ -34,6 +34,41 @@ export default {
           text: "Sign Up",
           page: "/register"
         }
+      ],
+      linksq: [
+        {
+          id: 0,
+          text: "Find Vendor",
+          page: "/find",
+          imgsrc: "@/assets/Vendor.svg"
+        },
+        {
+          id: 1,
+          text: "Dashboard",
+          page: "/dashboard",
+          imgsrc: "@/assets/Dashboard.svg"
+
+        },
+        {
+          id: 2,
+          text: "Portfolio",
+          page: "/portfolio",
+          imgsrc: "@/assets/Portfolio.svg"
+
+        },
+        {
+          id: 3,
+          text: "Blog",
+          page: "/blog",
+          imgsrc: "@/assets/Blog.png"
+
+        },
+        {
+          id: 6,
+          text: "Negotiations",
+          page: "/negotiations",
+          imgsrc: "@/assets/Negotiations.svg"
+        }
       ]
     };
   }
