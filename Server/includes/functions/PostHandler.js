@@ -153,7 +153,7 @@ function PostHandler() {
             }
         }
 
-        if (kerds.isset(handler[action])) {
+        if (base.isset(handler[action])) {
             if (self.appRequests.includes(action)) {
                 deliver({ error: 'Not Authorized', flag: self.locals.includes(req.headers.origin) || self.validateDomain(req) });
             }

@@ -9,8 +9,8 @@ module.exports = function UsersHandler() {
             data.currentPassword = hash;
 
             dataHandler.ifNotExist({ collection: 'users', query: data, check: [{ userName: data.userName }, { email: data.email }], action: 'insert', getInserted: true }).then(result => {
-                if (!kerds.isset(result.found)) {
-                    let status = kerds.isset(result[0]._id);
+                if (!base.isset(result.found)) {
+                    let status = base.isset(result[0]._id);
                     let message = 'Unable to Create User due to unknown error';
                     let payload;
                     if (status) {
@@ -180,7 +180,7 @@ module.exports = function UsersHandler() {
 
     self.logout = (req, res, data) => {
         let id = req.sessionId;
-        if (kerds.isset(data.user)) {
+        if (base.isset(data.user)) {
             id = data.user;
         }
         kerds.sessionsManager.destroy(id).then(done => {
